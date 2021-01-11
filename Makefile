@@ -6,7 +6,7 @@
 #    By: mg <mg@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/04 12:03:56 by mg                #+#    #+#              #
-#    Updated: 2021/01/09 01:40:29 by mg               ###   ########.fr        #
+#    Updated: 2021/01/11 12:24:12 by mg               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ fclean: clean
 test:
 	@$(CC) main.c -L ./ -lasm -o libasm.out -g
 	@./libasm.out
-#	gcc main.c libasm.a
+#	clang-9 main.c libasm.a
 
 re: fclean all
 
