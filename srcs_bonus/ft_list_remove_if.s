@@ -9,7 +9,6 @@ default rel
 global ft_list_remove_if
 
 extern free
-extern _GLOBAL_OFFSET_TABLE_
 
 
 SECTION .text   
@@ -17,77 +16,119 @@ SECTION .text
 ft_list_remove_if:
         push    rbp
         mov     rbp, rsp
-        sub     rsp, 48
-        mov     qword [rbp-18H], rdi
-        mov     qword [rbp-20H], rsi
-        mov     qword [rbp-28H], rdx
-        mov     rax, qword [rbp-18H]
-        mov     rax, qword [rax]
-        mov     qword [rbp-8H], rax
-        jmp     L_003
+        sub     rsp, 80
+        mov     qword [rbp-8H], rdi
+        mov     qword [rbp-10H], rsi
+        mov     qword [rbp-18H], rdx
+        mov     rax, qword [rbp-8H]
+        cmp     qword [rax], 0
 
-L_001:  mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax+8H]
-        mov     rax, qword [rax]
-        mov     rdx, qword [rbp-20H]
-        mov     rcx, qword [rbp-28H]
-        mov     rsi, rdx
-        mov     rdi, rax
-        mov     eax, 0
-        call    rcx
-        test    eax, eax
-        jnz     L_002
-        mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax+8H]
-        mov     qword [rbp-10H], rax
-        mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax+8H]
-        mov     rdx, qword [rax+8H]
-        mov     rax, qword [rbp-8H]
-        mov     qword [rax+8H], rdx
-        mov     rax, qword [rbp-10H]
-        mov     rdi, rax
-        call    free
-L_002:  mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax+8H]
-        mov     qword [rbp-8H], rax
-L_003:  cmp     qword [rbp-8H], 0
-        jz      L_004
-        mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax+8H]
-        test    rax, rax
-        jnz     L_001
-L_004:  mov     rax, qword [rbp-18H]
-        mov     rax, qword [rax]
-        mov     qword [rbp-8H], rax
-        cmp     qword [rbp-8H], 0
-        jz      L_005
-        mov     rax, qword [rbp-8H]
-        mov     rax, qword [rax]
-        mov     rdx, qword [rbp-20H]
-        mov     rcx, qword [rbp-28H]
-        mov     rsi, rdx
-        mov     rdi, rax
-        mov     eax, 0
-        call    rcx
-        test    eax, eax
-        jnz     L_005
-        mov     rax, qword [rbp-8H]
-        mov     rdx, qword [rax+8H]
+        jne     L_001
+        jmp     L_012
+
+L_001:
+
+        jmp     L_002
+
+L_002:  xor     eax, eax
+        mov     rcx, qword [rbp-8H]
+        cmp     qword [rcx], 0
+        mov     byte [rbp-29H], al
+
+        je      L_003
         mov     rax, qword [rbp-18H]
-        mov     qword [rax], rdx
+        mov     rcx, qword [rbp-8H]
+        mov     rcx, qword [rcx]
+        mov     rdi, qword [rcx]
+        mov     rsi, qword [rbp-10H]
+        mov     qword [rbp-38H], rax
+        mov     al, 0
+        mov     rcx, qword [rbp-38H]
+        call    rcx
+        cmp     eax, 0
+        sete    dl
+        mov     byte [rbp-29H], dl
+L_003:  mov     al, byte [rbp-29H]
+        test    al, 01H
+
+        jne     L_004
+
+        jmp     L_005
+
+L_004:  mov     rax, qword [rbp-8H]
+        mov     rax, qword [rax]
+        mov     rax, qword [rax+8H]
+        mov     qword [rbp-28H], rax
         mov     rax, qword [rbp-8H]
+        mov     rax, qword [rax]
         mov     rdi, rax
         call    free
-L_005:  nop
-        leave
+        mov     rax, qword [rbp-28H]
+        mov     rcx, qword [rbp-8H]
+        mov     qword [rcx], rax
+
+        jmp     L_002
+
+L_005:  mov     rax, qword [rbp-8H]
+        cmp     qword [rax], 0
+
+        jne     L_006
+        jmp     L_012
+
+L_006:  mov     rax, qword [rbp-8H]
+        mov     rax, qword [rax]
+        mov     qword [rbp-20H], rax
+L_007:  xor     eax, eax
+        cmp     qword [rbp-20H], 0
+        mov     byte [rbp-39H], al
+
+        je      L_008
+        mov     rax, qword [rbp-20H]
+        cmp     qword [rax+8H], 0
+        setne   cl
+        mov     byte [rbp-39H], cl
+L_008:  mov     al, byte [rbp-39H]
+        test    al, 01H
+
+        jne     L_009
+
+        jmp     L_012
+
+L_009:  mov     rax, qword [rbp-18H]
+        mov     rcx, qword [rbp-20H]
+        mov     rcx, qword [rcx+8H]
+        mov     rdi, qword [rcx]
+        mov     rsi, qword [rbp-10H]
+        mov     qword [rbp-48H], rax
+        mov     al, 0
+        mov     rcx, qword [rbp-48H]
+        call    rcx
+        cmp     eax, 0
+
+        jne     L_010
+        mov     rax, qword [rbp-20H]
+        mov     rax, qword [rax+8H]
+        mov     rax, qword [rax+8H]
+        mov     qword [rbp-28H], rax
+        mov     rax, qword [rbp-20H]
+        mov     rax, qword [rax+8H]
+        mov     rdi, rax
+        call    free
+        mov     rax, qword [rbp-28H]
+        mov     rcx, qword [rbp-20H]
+        mov     qword [rcx+8H], rax
+
+        jmp     L_011
+
+L_010:  mov     rax, qword [rbp-20H]
+        mov     rax, qword [rax+8H]
+        mov     qword [rbp-20H], rax
+L_011:  jmp     L_007
+
+
+L_012:
+        add     rsp, 80
+        pop     rbp
         ret
-
-
-
-SECTION .data   
-
-
-SECTION .bss    
 
 
