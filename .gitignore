@@ -1,4 +1,3 @@
-/libft
-/day11
-/c2nasm-64
-/libasm_test
+libasm.a
+libasm.out
+*.o
